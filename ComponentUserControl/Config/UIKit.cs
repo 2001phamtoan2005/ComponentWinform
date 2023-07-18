@@ -48,7 +48,6 @@ namespace ComponentUserControl.Config
         //public const string SecondaryColor = "#c8c9cb";
         public const string DisableColor = "#c8c9cb";
 
-        public static Font PrimaryFont = new Font(new FontFamily("Roboto"), 9, FontStyle.Bold);
         public static int VerticalSpacing = 8;
         public static int HorizontalSpacing = 12;
         public static Padding Padding = new Padding(12, 0, 12, 0);

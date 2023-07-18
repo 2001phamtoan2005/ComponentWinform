@@ -61,7 +61,6 @@ namespace Components.Buttons
             this.borderRadius = UIKit.BorderRadious;
             this.borderColor = ColorTranslator.FromHtml(UIKit.PrimaryColor);
             this.Size = new Size(this.Width, 38);
-            this.Font = UIKit.PrimaryFont;
             this.Padding = UIKit.Padding;
             this.Cursor = Cursors.Hand;
             this.Resize += new EventHandler(Button_Resize);

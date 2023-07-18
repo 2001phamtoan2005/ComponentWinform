@@ -1,4 +1,5 @@
-﻿using ComponentUserControl.Services;
+﻿using ComponentUserControl.DataGridViews;
+using ComponentUserControl.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,8 +19,6 @@ namespace ComponentUserControl
         public main()
         {
             InitializeComponent();
-            list = db.GetCTDHTest<ChiTietDonHangDTO>();
-            dataGridViewCustom1.SetDataSource(list);
             //dataGridView1.DataSource = list;
         }
 
@@ -35,5 +34,28 @@ namespace ComponentUserControl
             TabUI form = new TabUI();
             form.ShowDialog();
         }
+
+        private void main_Load(object sender, EventArgs e)
+        {
+            dataGridViewCustom1.SetHeaderTexts = new string[] { "Volvo", "BMW" };
+            dataGridViewCustom1.SetPropertyNames = new string[] { "MaSanPham", "TenSanPham" };
+            dataGridViewCustom1.TotalPages = db.GetSoLuongSanPham();
+            DelegateDataSource delegateCall = test;
+            dataGridViewCustom1.SetDelegateUpdateFilter(delegateCall);
+            //dataGridViewCustom1.SetDataSource(list);
+        }
+
+
+        private void test(int a,int b)
+        {
+            Filter filter = new Filter()
+            {
+                count = a,
+                pageNums = b
+            };
+            list = db.GetSanPham<ChiTietDonHangDTO>(filter);
+            dataGridViewCustom1.SetDataSource(list);
+        }
+
     }
 }

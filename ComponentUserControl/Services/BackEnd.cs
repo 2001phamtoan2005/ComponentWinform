@@ -9,6 +9,11 @@ using System.Threading.Tasks;
 
 namespace ComponentUserControl.Services
 {
+    public class Filter
+    {
+        public int count { get; set; } = 23;
+        public int pageNums { get; set; } = 1;
+    }
     public class BackEnd
     {
         RestClient client = new RestClient("http://data.gonsa.com.vn/api/product/test");
@@ -16,12 +21,12 @@ namespace ComponentUserControl.Services
         /// <summary>
         /// Hàm xử lý lấy danh sách không có điều kiện kèm theo
         /// </summary>
-        public List<T> GetCTDHTest<T>()
+        public List<T> GetSanPham<T>(Filter filter)
         {
             //string maChiTiet = "DOTD230505095501307";
             try
             {
-                var request = new RestRequest($"http://data.gonsa.com.vn/api/product/getProductForMiddleWare?count=50&pageNums=1", Method.Get);
+                var request = new RestRequest($"http://data.gonsa.com.vn/api/product/getProductForMiddleWare?pageNums={filter.pageNums}&count={filter.count}", Method.Get);
                 var response = client.Execute(request);
                 var content = response.Content;
                 if (content == null)
@@ -31,6 +36,24 @@ namespace ComponentUserControl.Services
             catch (Exception)
             {
                 return null;
+            }
+        }
+
+        public int GetSoLuongSanPham()
+        {
+            //string maChiTiet = "DOTD230505095501307";
+            try
+            {
+                var request = new RestRequest($"http://data.gonsa.com.vn/api/product/getCountProduct", Method.Get);
+                var response = client.Execute(request);
+                var content = response.Content;
+                if (content == null)
+                    return 0;
+                return JsonConvert.DeserializeObject<int>(content);
+            }
+            catch (Exception)
+            {
+                return 0;
             }
         }
     }
