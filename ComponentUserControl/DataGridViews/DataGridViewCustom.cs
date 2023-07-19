@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
 using System.Windows.Forms;
+using Button = System.Windows.Forms.Button;
 
 namespace ComponentUserControl.DataGridViews
 {
@@ -27,8 +28,8 @@ namespace ComponentUserControl.DataGridViews
         public DelegateDataSource delegateDataSource { get; set; } = null;
         #endregion
         #region Initial properties
-        string[] headerTexts = new string[] { "STT" };
-        string[] propertyNames = new string[] { "Index" };
+        string[] headerTexts = new string[] { };
+        string[] propertyNames = new string[] { };
         /// <summary>
         /// Mảng gồm danh sách các text muốn hiển thị lên header column
         /// </summary>
@@ -71,14 +72,16 @@ namespace ComponentUserControl.DataGridViews
         public DataGridViewCustom()
         {
             InitializeComponent();
+            dgv.AllowUserToResizeRows = false;
+            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv.MultiSelect = false;
         }
 
 
         private DataTable ConvertListToDataTable<T>(List<T> list, int continueIndex)
         {
             DataTable dt = new DataTable();
-
-            DataColumn workCol = dt.Columns.Add("Index", typeof(Int32));
+            dt.Columns.Add("Index", typeof(Int32));
             // create Header for dataTable
             foreach (PropertyInfo prop in list[0].GetType().GetProperties())
             {
@@ -119,15 +122,18 @@ namespace ComponentUserControl.DataGridViews
                 dgv.Columns[i].HeaderText = headerTexts[i];
                 dgv.Columns[i].DataPropertyName = propertyNames[i];
             }
+
+            // re-render pagination zone when fetch more data
+            GenerateButtonsPage();
         }
 
         private void ShowCurrentAndTotalPage()
         {
-            
-            lblTrangHienTai.Text = $"Trang: {CurrentPage} / {GetTotalPage(TotalItem,PageSize)}";
+
+            lblTrangHienTai.Text = $"Trang: {CurrentPage} / {GetTotalPage(TotalItem, PageSize)}";
         }
 
-        public int GetTotalPage(int totalItems,int psize)
+        public int GetTotalPage(int totalItems, int psize)
         {
             int totalPages = (totalItems / psize);
             int odd = totalItems % psize;
@@ -151,6 +157,43 @@ namespace ComponentUserControl.DataGridViews
             }
         }
 
+        private void GenerateButtonsPage()
+        {
+            int totalPage = GetTotalPage(TotalItem, PageSize);
+            if (totalPage > 0)
+            {
+                for (int i = 0; i < totalPage; i++)
+                {
+                    Button btn = new Button();
+                    Cursor = Cursors.Hand;
+                    btn.Text = (i + 1).ToString();
+                    btn.BackColor = Color.Transparent;
+                    btn.ForeColor = Color.Black;
+                    btn.FlatAppearance.BorderSize = 0;
+                    btn.Dock = DockStyle.Left;
+                    btn.Width = 40;
+                    btn.Height = panelPagination.Height;
+                    btn.Click += Btn_Click;
+                    panelPagination.Controls.Add(btn);
+                }
+            }
+        }
+
+        private void Btn_Click(object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
+            int clickedIndex = int.Parse(button.Text);
+            // TODO: Fetch data theo current index
+            for (int i = CurrentPage + 1; i <= clickedIndex; i++)
+            {
+                delegateDataSource?.Invoke(PageSize, i);
+            }
+            CurrentPage = clickedIndex;
+            LoadDataOnCurrentPage();
+            ToggleBackAndNextButtons();
+            ShowCurrentAndTotalPage();
+        }
+
         private void tblLayoutControls_Paint(object sender, PaintEventArgs e)
         {
 
@@ -158,10 +201,11 @@ namespace ComponentUserControl.DataGridViews
 
         private void DataGridViewCustom_Load(object sender, EventArgs e)
         {
+
         }
 
         /// <summary>
-        /// Hàm xử lý hiển thị dữ liệu theo pageSize lên dataGridView 
+        /// Hàm xử lý hiển thị dữ liệu theo Range lên dataGridView 
         /// </summary>
         private void LoadDataOnCurrentPage()
         {
@@ -198,7 +242,7 @@ namespace ComponentUserControl.DataGridViews
             {
                 btnBack.Enabled = true;
             }
-            if (CurrentPage >= GetTotalPage(TotalItem,PageSize))
+            if (CurrentPage >= GetTotalPage(TotalItem, PageSize))
             {
                 btnNext.Enabled = false;
             }

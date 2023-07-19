@@ -43,7 +43,6 @@ namespace ComponentUserControl
             dataGridViewCustom1.PageSize = 100;
             DelegateDataSource delegateCall = test;
             dataGridViewCustom1.SetDelegateUpdateFilter(delegateCall);
-            //dataGridViewCustom1.SetDataSource(list);
         }
 
 
