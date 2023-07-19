@@ -44,7 +44,7 @@ namespace ComponentUserControl.Services
             //string maChiTiet = "DOTD230505095501307";
             try
             {
-                var request = new RestRequest($"http://data.gonsa.com.vn/api/product/getCountProduct", Method.Get);
+                var request = new RestRequest($"http://data.gonsa.com.vn/api/product/getCountProductForMiddleWare", Method.Get);
                 var response = client.Execute(request);
                 var content = response.Content;
                 if (content == null)

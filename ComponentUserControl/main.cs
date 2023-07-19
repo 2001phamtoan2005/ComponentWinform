@@ -39,7 +39,8 @@ namespace ComponentUserControl
         {
             dataGridViewCustom1.SetHeaderTexts = new string[] { "Volvo", "BMW" };
             dataGridViewCustom1.SetPropertyNames = new string[] { "MaSanPham", "TenSanPham" };
-            dataGridViewCustom1.TotalPages = db.GetSoLuongSanPham();
+            dataGridViewCustom1.TotalItem = db.GetSoLuongSanPham();
+            dataGridViewCustom1.PageSize = 100;
             DelegateDataSource delegateCall = test;
             dataGridViewCustom1.SetDelegateUpdateFilter(delegateCall);
             //dataGridViewCustom1.SetDataSource(list);

@@ -32,10 +32,10 @@
             this.tblLayoutControls = new System.Windows.Forms.TableLayoutPanel();
             this.tblLayoutPagination = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPages = new System.Windows.Forms.FlowLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.dgv = new System.Windows.Forms.DataGridView();
+            this.lblTrangHienTai = new System.Windows.Forms.Label();
             this.btnBack = new Components.Buttons.ButtonCustom();
             this.btnNext = new Components.Buttons.ButtonCustom();
+            this.dgv = new System.Windows.Forms.DataGridView();
             this.tblLayoutMain.SuspendLayout();
             this.tblLayoutControls.SuspendLayout();
             this.tblLayoutPagination.SuspendLayout();
@@ -50,11 +50,12 @@
             this.tblLayoutMain.Controls.Add(this.dgv, 0, 0);
             this.tblLayoutMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tblLayoutMain.Location = new System.Drawing.Point(0, 0);
+            this.tblLayoutMain.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tblLayoutMain.Name = "tblLayoutMain";
             this.tblLayoutMain.RowCount = 2;
             this.tblLayoutMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tblLayoutMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 58F));
-            this.tblLayoutMain.Size = new System.Drawing.Size(1045, 617);
+            this.tblLayoutMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 91F));
+            this.tblLayoutMain.Size = new System.Drawing.Size(1568, 964);
             this.tblLayoutMain.TabIndex = 0;
             // 
             // tblLayoutControls
@@ -63,70 +64,59 @@
             this.tblLayoutControls.ColumnCount = 4;
             this.tblLayoutControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60.31746F));
             this.tblLayoutControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 39.68254F));
-            this.tblLayoutControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 610F));
-            this.tblLayoutControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 147F));
+            this.tblLayoutControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 915F));
+            this.tblLayoutControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 225F));
             this.tblLayoutControls.Controls.Add(this.tblLayoutPagination, 2, 0);
-            this.tblLayoutControls.Controls.Add(this.label1, 0, 0);
+            this.tblLayoutControls.Controls.Add(this.lblTrangHienTai, 0, 0);
             this.tblLayoutControls.Controls.Add(this.btnBack, 1, 0);
             this.tblLayoutControls.Controls.Add(this.btnNext, 3, 0);
             this.tblLayoutControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tblLayoutControls.ForeColor = System.Drawing.Color.White;
-            this.tblLayoutControls.Location = new System.Drawing.Point(3, 562);
+            this.tblLayoutControls.Location = new System.Drawing.Point(4, 878);
+            this.tblLayoutControls.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tblLayoutControls.Name = "tblLayoutControls";
             this.tblLayoutControls.RowCount = 1;
             this.tblLayoutControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLayoutControls.Size = new System.Drawing.Size(1039, 52);
+            this.tblLayoutControls.Size = new System.Drawing.Size(1560, 81);
             this.tblLayoutControls.TabIndex = 1;
             this.tblLayoutControls.Paint += new System.Windows.Forms.PaintEventHandler(this.tblLayoutControls_Paint);
             // 
             // tblLayoutPagination
             // 
             this.tblLayoutPagination.ColumnCount = 3;
-            this.tblLayoutPagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tblLayoutPagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tblLayoutPagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLayoutPagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tblLayoutPagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tblLayoutPagination.Controls.Add(this.flowLayoutPages, 1, 0);
-            this.tblLayoutPagination.Location = new System.Drawing.Point(284, 3);
+            this.tblLayoutPagination.Location = new System.Drawing.Point(423, 5);
+            this.tblLayoutPagination.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tblLayoutPagination.Name = "tblLayoutPagination";
-            this.tblLayoutPagination.Padding = new System.Windows.Forms.Padding(4);
+            this.tblLayoutPagination.Padding = new System.Windows.Forms.Padding(6);
             this.tblLayoutPagination.RowCount = 1;
             this.tblLayoutPagination.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLayoutPagination.Size = new System.Drawing.Size(495, 46);
+            this.tblLayoutPagination.Size = new System.Drawing.Size(742, 71);
             this.tblLayoutPagination.TabIndex = 2;
             // 
             // flowLayoutPages
             // 
             this.flowLayoutPages.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.flowLayoutPages.Location = new System.Drawing.Point(47, 7);
+            this.flowLayoutPages.Location = new System.Drawing.Point(70, 11);
+            this.flowLayoutPages.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.flowLayoutPages.Name = "flowLayoutPages";
-            this.flowLayoutPages.Size = new System.Drawing.Size(401, 32);
+            this.flowLayoutPages.Size = new System.Drawing.Size(602, 49);
             this.flowLayoutPages.TabIndex = 5;
             // 
-            // label1
+            // lblTrangHienTai
             // 
-            this.label1.AutoSize = true;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(164, 52);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Trang";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // dgv
-            // 
-            this.dgv.AllowUserToAddRows = false;
-            this.dgv.AllowUserToDeleteRows = false;
-            this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv.Location = new System.Drawing.Point(3, 3);
-            this.dgv.Name = "dgv";
-            this.dgv.ReadOnly = true;
-            this.dgv.RowHeadersVisible = false;
-            this.dgv.RowHeadersWidth = 51;
-            this.dgv.RowTemplate.Height = 24;
-            this.dgv.Size = new System.Drawing.Size(1039, 553);
-            this.dgv.TabIndex = 2;
+            this.lblTrangHienTai.AutoSize = true;
+            this.lblTrangHienTai.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblTrangHienTai.Location = new System.Drawing.Point(4, 0);
+            this.lblTrangHienTai.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblTrangHienTai.Name = "lblTrangHienTai";
+            this.lblTrangHienTai.Size = new System.Drawing.Size(245, 81);
+            this.lblTrangHienTai.TabIndex = 0;
+            this.lblTrangHienTai.Text = "Trang";
+            this.lblTrangHienTai.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnBack
             // 
@@ -136,10 +126,11 @@
             this.btnBack.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnBack.FlatAppearance.BorderSize = 0;
             this.btnBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBack.Location = new System.Drawing.Point(173, 3);
+            this.btnBack.Location = new System.Drawing.Point(257, 5);
+            this.btnBack.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnBack.Name = "btnBack";
-            this.btnBack.Padding = new System.Windows.Forms.Padding(12, 0, 12, 0);
-            this.btnBack.Size = new System.Drawing.Size(75, 38);
+            this.btnBack.Padding = new System.Windows.Forms.Padding(18, 0, 18, 0);
+            this.btnBack.Size = new System.Drawing.Size(112, 59);
             this.btnBack.TabIndex = 3;
             this.btnBack.Text = "back";
             this.btnBack.UseVisualStyleBackColor = true;
@@ -153,22 +144,39 @@
             this.btnNext.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnNext.FlatAppearance.BorderSize = 0;
             this.btnNext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNext.Location = new System.Drawing.Point(894, 3);
+            this.btnNext.Location = new System.Drawing.Point(1338, 5);
+            this.btnNext.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnNext.Name = "btnNext";
-            this.btnNext.Padding = new System.Windows.Forms.Padding(12, 0, 12, 0);
-            this.btnNext.Size = new System.Drawing.Size(75, 38);
+            this.btnNext.Padding = new System.Windows.Forms.Padding(18, 0, 18, 0);
+            this.btnNext.Size = new System.Drawing.Size(112, 59);
             this.btnNext.TabIndex = 4;
             this.btnNext.Text = "next";
             this.btnNext.UseVisualStyleBackColor = true;
             this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
+            // dgv
+            // 
+            this.dgv.AllowUserToAddRows = false;
+            this.dgv.AllowUserToDeleteRows = false;
+            this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv.Location = new System.Drawing.Point(4, 5);
+            this.dgv.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dgv.Name = "dgv";
+            this.dgv.ReadOnly = true;
+            this.dgv.RowHeadersWidth = 51;
+            this.dgv.RowTemplate.Height = 24;
+            this.dgv.Size = new System.Drawing.Size(1560, 863);
+            this.dgv.TabIndex = 2;
+            // 
             // DataGridViewCustom
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tblLayoutMain);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "DataGridViewCustom";
-            this.Size = new System.Drawing.Size(1045, 617);
+            this.Size = new System.Drawing.Size(1568, 964);
             this.Load += new System.EventHandler(this.DataGridViewCustom_Load);
             this.tblLayoutMain.ResumeLayout(false);
             this.tblLayoutControls.ResumeLayout(false);
@@ -183,7 +191,7 @@
 
         private System.Windows.Forms.TableLayoutPanel tblLayoutMain;
         private System.Windows.Forms.TableLayoutPanel tblLayoutControls;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblTrangHienTai;
         private System.Windows.Forms.TableLayoutPanel tblLayoutPagination;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPages;
         private System.Windows.Forms.DataGridView dgv;
