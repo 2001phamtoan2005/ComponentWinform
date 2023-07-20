@@ -57,7 +57,7 @@ namespace ComponentUserControl.DataGridViews
         /// <summary>
         /// Tổng sô item trong 1 trang
         /// </summary>
-        public int PageSize { get; set; } = 10;
+        public int PageSize { get; set; } = 50;
         /// <summary>
         /// Trang hiện tại
         /// </summary>
@@ -68,7 +68,6 @@ namespace ComponentUserControl.DataGridViews
         #endregion
         public Action<int, int> action1;
 
-        DataTable dtAll = new();
         Dictionary<int, DataTable> storage = new Dictionary<int, DataTable>();
 
         public DataGridViewCustom()
@@ -78,7 +77,7 @@ namespace ComponentUserControl.DataGridViews
             dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgv.MultiSelect = false;
             dgv.RowHeadersVisible = false;
-            cbbSelectPageSize.DataSource = new[] { 50,100, };
+            cbbSelectPageSize.DataSource = new[] { 50, 100, 200, 500, 1000 };
         }
 
 
@@ -97,7 +96,7 @@ namespace ComponentUserControl.DataGridViews
             {
                 DataRow newRow = dt.NewRow();
                 // add index for first columns
-                int startIndex = (CurrentPage - 1) * PageSize + i;
+                int startIndex = (CurrentPage - 1) * PageSize + i + 1;
                 newRow["Index"] = startIndex;
                 foreach (PropertyInfo prop in list[i].GetType().GetProperties())
                 {
@@ -165,62 +164,148 @@ namespace ComponentUserControl.DataGridViews
         /// <summary>
         /// Hàm sinh các button thể hiện số trang hiện có
         /// </summary>
+        //private void GenerateButtonsPage()
+        //{
+        //    int totalPage = GetTotalPage(TotalItem, PageSize);
+        //    // max range có thể hiển thị là 3
+        //    int rangePage = Math.Min(3, totalPage / 2);
+        //    flowLayoutPagination.Controls.Clear();
+        //    if (totalPage > 0)
+        //    {
+        //        int index = CurrentPage - rangePage;
+        //        if (CurrentPage + rangePage >= totalPage)
+        //        {
+        //            index -= (CurrentPage + rangePage) - totalPage;
+        //        }
+
+        //        while (index <= CurrentPage + rangePage)
+        //        {
+        //            if (index > totalPage)
+        //            {
+        //                return;
+        //            }
+
+        //            if (index >= 1)
+        //            {
+        //                Button btn = new Button();
+        //                Cursor = Cursors.Hand;
+        //                btn.Text = index.ToString();
+        //                btn.BackColor = Color.White;
+        //                btn.ForeColor = Color.Black;
+        //                btn.FlatAppearance.BorderSize = 0;
+        //                btn.FlatStyle = FlatStyle.Flat;
+        //                btn.Anchor = AnchorStyles.Top;
+        //                btn.Padding = new Padding(0);
+        //                btn.Width = 40;
+        //                btn.Left = 40 * index + btn.Margin.Horizontal;
+        //                btn.Height = flowLayoutPagination.Height;
+        //                btn.Click += Btn_Click;
+        //                //btn.FlatAppearance.MouseOverBackColor = ColorTranslator.FromHtml(UIKit.PrimaryColor_90);
+        //                if (index == CurrentPage)
+        //                {
+        //                    btn.ForeColor = Color.WhiteSmoke;
+        //                    btn.BackColor = ColorTranslator.FromHtml(UIKit.PrimaryColor);
+        //                    btn.FlatAppearance.BorderColor = ColorTranslator.FromHtml(UIKit.PrimaryColor);
+        //                }
+        //                flowLayoutPagination.Controls.Add(btn);
+        //            }
+        //            else
+        //            {
+        //                rangePage++;
+        //            }
+        //            index++;
+        //        }
+        //    }
+        //}
+
+
+        private void CreateButonWithIndex(int index)
+        {
+            Button btn = new Button();
+            Cursor = Cursors.Hand;
+            btn.Text = index.ToString();
+            btn.BackColor = Color.White;
+            btn.ForeColor = ColorTranslator.FromHtml(UIKit.SecondaryColor);
+            btn.FlatAppearance.BorderSize = 0;
+            btn.FlatStyle = FlatStyle.Flat;
+            btn.Anchor = AnchorStyles.Top;
+            btn.Padding = new Padding(0);
+            btn.Font = new Font(this.Font.FontFamily, 8.25F, FontStyle.Bold);
+            btn.Width = 40;
+            btn.Left = 40 * index + btn.Margin.Horizontal;
+            btn.Height = flowLayoutPagination.Height;
+            btn.Click += Btn_Click;
+            //btn.FlatAppearance.MouseOverBackColor = ColorTranslator.FromHtml(UIKit.PrimaryColor_90);
+            if (index == CurrentPage)
+            {
+                btn.ForeColor = Color.WhiteSmoke;
+                btn.BackColor = ColorTranslator.FromHtml(UIKit.PrimaryColor);
+                btn.FlatAppearance.BorderColor = ColorTranslator.FromHtml(UIKit.PrimaryColor);
+            }
+            flowLayoutPagination.Controls.Add(btn);
+        }
+
         private void GenerateButtonsPage()
         {
             int totalPage = GetTotalPage(TotalItem, PageSize);
             // max range có thể hiển thị là 3
-            //int rangePage = Math.Min(2, totalPage / 2);
-            int rangePage = 2;
+            int rangePage = 3;
+            int maxRangePage = (rangePage * 2) + 1;
             flowLayoutPagination.Controls.Clear();
-            if (totalPage > 0)
+            // Case A: TotalPage nhỏ hơn max range page
+            // example: rangePage = 3 =>
+            //          maxRangePage = (rangePage x 2) + 1 (page hiển thị ) = 7
+            //          totalPage <= maxRangePage
+            //          => fill 1-7 buttons
+            if (totalPage <= maxRangePage)
             {
-                int index = CurrentPage - rangePage;
-                if (CurrentPage + rangePage >= totalPage)
+                for (int i = 1; i <= totalPage; i++)
                 {
-                    index -= (CurrentPage + rangePage) - totalPage;
+                    CreateButonWithIndex(i);
                 }
-                
-                while (index <= CurrentPage + rangePage)
-                {
-                    if (index > totalPage)
-                    {
-                        return;
-                    }
-
-                    if (index >= 1)
-                    {
-                        Button btn = new Button();
-                        Cursor = Cursors.Hand;
-                        btn.Text = index.ToString();
-                        btn.BackColor = Color.White;
-                        btn.ForeColor = Color.Black;
-                        btn.FlatAppearance.BorderSize = 0;
-                        btn.FlatStyle = FlatStyle.Flat;
-                        btn.Anchor = AnchorStyles.Top;
-                        btn.Padding = new Padding(0);
-                        btn.Width = 40;
-                        btn.Left = 40 * index + btn.Margin.Horizontal;
-                        btn.Height = flowLayoutPagination.Height;
-                        btn.Click += Btn_Click;
-                        //btn.FlatAppearance.MouseOverBackColor = ColorTranslator.FromHtml(UIKit.PrimaryColor_90);
-                        if (index == CurrentPage)
-                        {
-                            btn.ForeColor = Color.WhiteSmoke;
-                            btn.BackColor = ColorTranslator.FromHtml(UIKit.PrimaryColor);
-                            btn.FlatAppearance.BorderColor = ColorTranslator.FromHtml(UIKit.PrimaryColor);
-                        }
-                        flowLayoutPagination.Controls.Add(btn);
-                    }
-                    else
-                    {
-                        rangePage++;
-                    }
-                    index++;
-                }
+                return;
             }
+
+            // Case B: TotalPage lớn hơn max range page
+            // Case 2: Current page rơi vào rangePage đầu 
+            // example: rangePage = 3 & currentPage <=3
+            if (CurrentPage <= rangePage)
+            {
+                for (int i = 1; i <= maxRangePage; i++)
+                {
+                    CreateButonWithIndex(i);
+                }
+                return;
+            }
+
+
+            // Case 3: Current page rơi vào rangePage cuối 
+            // example: rangePage = 3 & currentPage >= totalPage - rangePage 
+
+            if (CurrentPage >= totalPage - rangePage)
+            {
+                for (int i = (totalPage - maxRangePage) + 1; i <= totalPage; i++)
+                {
+                    CreateButonWithIndex(i);
+                }
+                return;
+            }
+            // Case 4: Current page rơi vào vị trí sau [rangePage+1,totalPage - rangePage - 1]
+            // => fill từ [currentPage - 3, currentPage +3]
+
+            int offsetFooter = totalPage - rangePage;
+            if (CurrentPage > rangePage && CurrentPage < offsetFooter)
+            {
+                for (int i = CurrentPage - rangePage; i <= CurrentPage + rangePage; i++)
+                {
+                    CreateButonWithIndex(i);
+                }
+                return;
+            }
+
         }
 
-      
+
 
 
         /// <summary>
@@ -252,6 +337,7 @@ namespace ComponentUserControl.DataGridViews
                 dgv.DataSource = storage[CurrentPage];
                 ToggleBackAndNextButtons();
                 ShowCurrentAndTotalPage();
+                GenerateButtonsPage();
             }
         }
 
@@ -276,7 +362,6 @@ namespace ComponentUserControl.DataGridViews
                 btnNext.Enabled = true;
             }
 
-            GenerateButtonsPage();
         }
 
         private void btnBack_Click(object sender, EventArgs e)
@@ -285,9 +370,8 @@ namespace ComponentUserControl.DataGridViews
             if (delegateDataSource != null)
             {
                 --CurrentPage;
-                ToggleBackAndNextButtons();
-                ShowCurrentAndTotalPage();
                 LoadDataOnCurrentPage();
+
             }
         }
 
@@ -298,8 +382,17 @@ namespace ComponentUserControl.DataGridViews
             if (delegateDataSource != null)
             {
                 ++CurrentPage;
-                ToggleBackAndNextButtons();
-                ShowCurrentAndTotalPage();
+                LoadDataOnCurrentPage();
+            }
+        }
+
+        private void cbbSelectPageSize_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (cbbSelectPageSize.SelectedValue != null)
+            {
+                storage.Clear();
+                PageSize = int.Parse(cbbSelectPageSize.SelectedValue.ToString());
+                CurrentPage = 1;
                 LoadDataOnCurrentPage();
             }
         }

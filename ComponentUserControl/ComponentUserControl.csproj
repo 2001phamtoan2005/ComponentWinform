@@ -136,6 +136,7 @@
     </Compile>
     <Compile Include="Services\BackEnd.cs" />
     <Compile Include="Services\ChiTietDonHangDTO.cs" />
+    <Compile Include="Services\KhachHangDTO.cs" />
     <Compile Include="TabUI.cs">
       <SubType>Form</SubType>
     </Compile>

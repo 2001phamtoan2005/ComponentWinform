@@ -71,7 +71,6 @@
             this.dataGridViewCustom1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.dataGridViewCustom1.Location = new System.Drawing.Point(0, 358);
             this.dataGridViewCustom1.Name = "dataGridViewCustom1";
-            this.dataGridViewCustom1.PageSize = 10;
             this.dataGridViewCustom1.SetHeaderTexts = new string[] {
         "STT"};
             this.dataGridViewCustom1.SetPropertyNames = new string[] {
@@ -90,6 +89,7 @@
             this.Controls.Add(this.btnTabs);
             this.Controls.Add(this.btnButtons);
             this.Name = "main";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "main";
             this.Load += new System.EventHandler(this.main_Load);
             this.ResumeLayout(false);

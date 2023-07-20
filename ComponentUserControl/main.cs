@@ -15,7 +15,7 @@ namespace ComponentUserControl
     public partial class main : Form
     {
         BackEnd db = new BackEnd();
-        List<ChiTietDonHangDTO> list = new List<ChiTietDonHangDTO>();
+        List<KhachHangDTO> list = new List<KhachHangDTO>();
         public main()
         {
             InitializeComponent();
@@ -37,10 +37,9 @@ namespace ComponentUserControl
 
         private void main_Load(object sender, EventArgs e)
         {
-            dataGridViewCustom1.SetHeaderTexts = new string[] { "Volvo", "BMW" };
-            dataGridViewCustom1.SetPropertyNames = new string[] { "MaSanPham", "TenSanPham" };
+            dataGridViewCustom1.SetHeaderTexts = new string[] { "Mã khách hàng", "Tên khách hàng" };
+            dataGridViewCustom1.SetPropertyNames = new string[] { "MaKhachHang", "TenKhachHang" };
             dataGridViewCustom1.TotalItem = db.GetSoLuongSanPham();
-            dataGridViewCustom1.PageSize = 100;
             DelegateDataSource delegateCall = test;
             dataGridViewCustom1.SetDelegateUpdateFilter(delegateCall);
         }
@@ -53,7 +52,7 @@ namespace ComponentUserControl
                 count = a,
                 pageNums = b
             };
-            list = db.GetSanPham<ChiTietDonHangDTO>(filter);
+            list = db.GetSanPham<KhachHangDTO>(filter);
             dataGridViewCustom1.SetDataSource(list);
         }
 

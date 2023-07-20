@@ -26,7 +26,7 @@ namespace ComponentUserControl.Services
             //string maChiTiet = "DOTD230505095501307";
             try
             {
-                var request = new RestRequest($"http://data.gonsa.com.vn/api/product/getProductForMiddleWare?pageNums={filter.pageNums}&count={filter.count}", Method.Get);
+                var request = new RestRequest($"http://data.gonsa.com.vn/api/customer/getCustomerForMiddleWare?pageNums={filter.pageNums}&count={filter.count}&type=allCustomer", Method.Get);
                 var response = client.Execute(request);
                 var content = response.Content;
                 if (content == null)
@@ -44,7 +44,7 @@ namespace ComponentUserControl.Services
             //string maChiTiet = "DOTD230505095501307";
             try
             {
-                var request = new RestRequest($"http://data.gonsa.com.vn/api/product/getCountProductForMiddleWare", Method.Get);
+                var request = new RestRequest($"http://data.gonsa.com.vn/api/customer/getCountCustomerForMiddleWare?type=allCustomer", Method.Get);
                 var response = client.Execute(request);
                 var content = response.Content;
                 if (content == null)
