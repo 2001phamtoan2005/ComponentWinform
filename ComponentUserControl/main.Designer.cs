@@ -36,10 +36,10 @@
             // 
             // btnButtons
             // 
-            this.btnButtons.Location = new System.Drawing.Point(36, 19);
-            this.btnButtons.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnButtons.FlatAppearance.BorderSize = 0;
+            this.btnButtons.Location = new System.Drawing.Point(1133, 91);
             this.btnButtons.Name = "btnButtons";
-            this.btnButtons.Size = new System.Drawing.Size(112, 36);
+            this.btnButtons.Size = new System.Drawing.Size(75, 23);
             this.btnButtons.TabIndex = 1;
             this.btnButtons.Text = "Buttons";
             this.btnButtons.UseVisualStyleBackColor = true;
@@ -47,10 +47,9 @@
             // 
             // btnTabs
             // 
-            this.btnTabs.Location = new System.Drawing.Point(36, 83);
-            this.btnTabs.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnTabs.Location = new System.Drawing.Point(24, 53);
             this.btnTabs.Name = "btnTabs";
-            this.btnTabs.Size = new System.Drawing.Size(112, 36);
+            this.btnTabs.Size = new System.Drawing.Size(75, 23);
             this.btnTabs.TabIndex = 2;
             this.btnTabs.Text = "Tabs";
             this.btnTabs.UseVisualStyleBackColor = true;
@@ -58,10 +57,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(36, 142);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button1.Location = new System.Drawing.Point(24, 91);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(237, 66);
+            this.button1.Size = new System.Drawing.Size(158, 42);
             this.button1.TabIndex = 4;
             this.button1.Text = "DateTimePicker";
             this.button1.UseVisualStyleBackColor = true;
@@ -70,28 +68,27 @@
             // 
             this.dataGridViewCustom1.CurrentPage = 1;
             this.dataGridViewCustom1.delegateDataSource = null;
-            this.dataGridViewCustom1.Location = new System.Drawing.Point(342, 429);
-            this.dataGridViewCustom1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dataGridViewCustom1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.dataGridViewCustom1.Location = new System.Drawing.Point(0, 358);
             this.dataGridViewCustom1.Name = "dataGridViewCustom1";
             this.dataGridViewCustom1.PageSize = 10;
             this.dataGridViewCustom1.SetHeaderTexts = new string[] {
         "STT"};
             this.dataGridViewCustom1.SetPropertyNames = new string[] {
         "Index"};
-            this.dataGridViewCustom1.Size = new System.Drawing.Size(1317, 578);
+            this.dataGridViewCustom1.Size = new System.Drawing.Size(1246, 370);
             this.dataGridViewCustom1.TabIndex = 5;
             this.dataGridViewCustom1.TotalItem = 0;
             // 
             // main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1869, 1138);
+            this.ClientSize = new System.Drawing.Size(1246, 728);
             this.Controls.Add(this.dataGridViewCustom1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnTabs);
             this.Controls.Add(this.btnButtons);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "main";
             this.Text = "main";
             this.Load += new System.EventHandler(this.main_Load);

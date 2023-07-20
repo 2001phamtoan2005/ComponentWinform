@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ComponentUserControl.Config;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -68,6 +69,7 @@ namespace ComponentUserControl.DataGridViews
         public Action<int, int> action1;
 
         DataTable dtAll = new();
+        Dictionary<int, DataTable> storage = new Dictionary<int, DataTable>();
 
         public DataGridViewCustom()
         {
@@ -75,10 +77,12 @@ namespace ComponentUserControl.DataGridViews
             dgv.AllowUserToResizeRows = false;
             dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgv.MultiSelect = false;
+            dgv.RowHeadersVisible = false;
+            cbbSelectPageSize.DataSource = new[] { 50,100, };
         }
 
 
-        private DataTable ConvertListToDataTable<T>(List<T> list, int continueIndex)
+        private DataTable ConvertListToDataTable<T>(List<T> list)
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("Index", typeof(Int32));
@@ -93,7 +97,8 @@ namespace ComponentUserControl.DataGridViews
             {
                 DataRow newRow = dt.NewRow();
                 // add index for first columns
-                newRow["Index"] = continueIndex + i + 1;
+                int startIndex = (CurrentPage - 1) * PageSize + i;
+                newRow["Index"] = startIndex;
                 foreach (PropertyInfo prop in list[i].GetType().GetProperties())
                 {
                     newRow[prop.Name] = prop.GetValue(list[i], null);
@@ -113,8 +118,10 @@ namespace ComponentUserControl.DataGridViews
         {
             ShowCurrentAndTotalPage();
             ToggleBackAndNextButtons();
+            GenerateButtonsPage();
             dgv.AutoGenerateColumns = false;
-            dtAll.Merge(ConvertListToDataTable(list, dtAll.Rows.Count));
+            //dtAll.Merge(ConvertListToDataTable(list));
+            storage.Add(CurrentPage, ConvertListToDataTable(list));
             LoadDataOnCurrentPage();
             // rename header column name
             for (int i = 0; i < headerTexts.Length; i++)
@@ -124,7 +131,6 @@ namespace ComponentUserControl.DataGridViews
             }
 
             // re-render pagination zone when fetch more data
-            GenerateButtonsPage();
         }
 
         private void ShowCurrentAndTotalPage()
@@ -156,77 +162,96 @@ namespace ComponentUserControl.DataGridViews
                 delegateDataSource.Invoke(PageSize, CurrentPage);
             }
         }
-
+        /// <summary>
+        /// Hàm sinh các button thể hiện số trang hiện có
+        /// </summary>
         private void GenerateButtonsPage()
         {
             int totalPage = GetTotalPage(TotalItem, PageSize);
+            // max range có thể hiển thị là 3
+            //int rangePage = Math.Min(2, totalPage / 2);
+            int rangePage = 2;
+            flowLayoutPagination.Controls.Clear();
             if (totalPage > 0)
             {
-                for (int i = 0; i < totalPage; i++)
+                int index = CurrentPage - rangePage;
+                if (CurrentPage + rangePage >= totalPage)
                 {
-                    Button btn = new Button();
-                    Cursor = Cursors.Hand;
-                    btn.Text = (i + 1).ToString();
-                    btn.BackColor = Color.Transparent;
-                    btn.ForeColor = Color.Black;
-                    btn.FlatAppearance.BorderSize = 0;
-                    btn.Dock = DockStyle.Left;
-                    btn.Width = 40;
-                    btn.Height = panelPagination.Height;
-                    btn.Click += Btn_Click;
-                    panelPagination.Controls.Add(btn);
+                    index -= (CurrentPage + rangePage) - totalPage;
+                }
+                
+                while (index <= CurrentPage + rangePage)
+                {
+                    if (index > totalPage)
+                    {
+                        return;
+                    }
+
+                    if (index >= 1)
+                    {
+                        Button btn = new Button();
+                        Cursor = Cursors.Hand;
+                        btn.Text = index.ToString();
+                        btn.BackColor = Color.White;
+                        btn.ForeColor = Color.Black;
+                        btn.FlatAppearance.BorderSize = 0;
+                        btn.FlatStyle = FlatStyle.Flat;
+                        btn.Anchor = AnchorStyles.Top;
+                        btn.Padding = new Padding(0);
+                        btn.Width = 40;
+                        btn.Left = 40 * index + btn.Margin.Horizontal;
+                        btn.Height = flowLayoutPagination.Height;
+                        btn.Click += Btn_Click;
+                        //btn.FlatAppearance.MouseOverBackColor = ColorTranslator.FromHtml(UIKit.PrimaryColor_90);
+                        if (index == CurrentPage)
+                        {
+                            btn.ForeColor = Color.WhiteSmoke;
+                            btn.BackColor = ColorTranslator.FromHtml(UIKit.PrimaryColor);
+                            btn.FlatAppearance.BorderColor = ColorTranslator.FromHtml(UIKit.PrimaryColor);
+                        }
+                        flowLayoutPagination.Controls.Add(btn);
+                    }
+                    else
+                    {
+                        rangePage++;
+                    }
+                    index++;
                 }
             }
         }
 
+      
+
+
+        /// <summary>
+        /// Hàm xử lý sự kiện onClick cho các button tự sinh
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_Click(object sender, EventArgs e)
         {
             Button button = (Button)sender;
             int clickedIndex = int.Parse(button.Text);
-            // TODO: Fetch data theo current index
-            for (int i = CurrentPage + 1; i <= clickedIndex; i++)
-            {
-                delegateDataSource?.Invoke(PageSize, i);
-            }
             CurrentPage = clickedIndex;
             LoadDataOnCurrentPage();
-            ToggleBackAndNextButtons();
-            ShowCurrentAndTotalPage();
         }
 
-        private void tblLayoutControls_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void DataGridViewCustom_Load(object sender, EventArgs e)
-        {
-
-        }
 
         /// <summary>
         /// Hàm xử lý hiển thị dữ liệu theo Range lên dataGridView 
         /// </summary>
         private void LoadDataOnCurrentPage()
         {
-            if (CurrentPage > 0)
+            // Nếu chưa tồn tại thì thực hiện fetch thêm data
+            if (!storage.ContainsKey(CurrentPage))
             {
-                //Vị trí của page trước hoặc sau
-                int currentPageOffSet = CurrentPage - 1;
-                int startOffSet = currentPageOffSet * PageSize;
-                int endOffSet = startOffSet + PageSize;
-                DataTable currentTable = dtAll.Clone();
-                for (int i = startOffSet; i < endOffSet; i++)
-                {
-                    if (i > TotalItem)
-                    {
-                        break;
-                    }
-                    DataRow newRow = currentTable.NewRow();
-                    newRow.ItemArray = dtAll.Rows[i].ItemArray;
-                    currentTable.Rows.Add(newRow);
-                }
-                dgv.DataSource = currentTable;
+                delegateDataSource?.Invoke(PageSize, CurrentPage);
+            }
+            else
+            {
+                dgv.DataSource = storage[CurrentPage];
+                ToggleBackAndNextButtons();
+                ShowCurrentAndTotalPage();
             }
         }
 
@@ -250,6 +275,8 @@ namespace ComponentUserControl.DataGridViews
             {
                 btnNext.Enabled = true;
             }
+
+            GenerateButtonsPage();
         }
 
         private void btnBack_Click(object sender, EventArgs e)
@@ -264,6 +291,7 @@ namespace ComponentUserControl.DataGridViews
             }
         }
 
+
         private void btnNext_Click(object sender, EventArgs e)
         {
 
@@ -272,18 +300,7 @@ namespace ComponentUserControl.DataGridViews
                 ++CurrentPage;
                 ToggleBackAndNextButtons();
                 ShowCurrentAndTotalPage();
-                int totalFetchedPage = dtAll.Rows.Count / PageSize;
-                // Kiểm tra nếu đã có data thì ko cần fetch thêm 
-                bool isFetching = CurrentPage > totalFetchedPage;
-                if (isFetching)
-                {
-                    // gọi Hàm để fetch thêm data
-                    delegateDataSource?.Invoke(PageSize, CurrentPage);
-                }
-                else
-                {
-                    LoadDataOnCurrentPage();
-                }
+                LoadDataOnCurrentPage();
             }
         }
     }
