@@ -155,6 +155,9 @@
     <EmbeddedResource Include="DataGridViews\DataGridViewCustom.resx">
       <DependentUpon>DataGridViewCustom.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Loading\Loading.resx">
+      <DependentUpon>Loading.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="main.resx">
       <DependentUpon>main.cs</DependentUpon>
     </EmbeddedResource>
@@ -191,6 +194,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\lessThan_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-spinner1.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

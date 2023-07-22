@@ -1,4 +1,5 @@
 ﻿using ComponentUserControl.Config;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,6 +8,7 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.Linq;
 using System.Reflection;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
@@ -23,14 +25,32 @@ namespace ComponentUserControl.DataGridViews
     public delegate void DelegateDataSource(int pageSize, int page);
     public partial class DataGridViewCustom : UserControl
     {
+        #region Constant
+        public class ColumnName
+        {
+            public const string Index = "Index";
+            public const string Delete = "btnDelete";
+        }
+        #endregion
         #region Declare delegate
-
-
         public DelegateDataSource delegateDataSource { get; set; } = null;
         #endregion
         #region Initial properties
         string[] headerTexts = new string[] { };
         string[] propertyNames = new string[] { };
+        string[] booleanPropertyNames = new string[] { };
+        /// <summary>
+        /// Mảng gồm danh sách các tên thuộc tính mang giá trị boolean
+        /// </summary>
+        public string[] SetBooleanPropertyNames
+        {
+            get { return booleanPropertyNames; }
+            set
+            {
+                booleanPropertyNames = booleanPropertyNames.Concat(value).ToArray();
+            }
+        }
+
         /// <summary>
         /// Mảng gồm danh sách các text muốn hiển thị lên header column
         /// </summary>
@@ -66,26 +86,34 @@ namespace ComponentUserControl.DataGridViews
 
 
         #endregion
-        public Action<int, int> action1;
 
+        /// <summary>
+        /// Biến local lưu trữ các dataTable theo current page
+        /// </summary>
         Dictionary<int, DataTable> storage = new Dictionary<int, DataTable>();
-
         public DataGridViewCustom()
         {
             InitializeComponent();
-            dgv.AllowUserToResizeRows = false;
             dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgv.MultiSelect = false;
             dgv.RowHeadersVisible = false;
-            cbbSelectPageSize.DataSource = new[] { 50, 100, 200, 500, 1000 };
+            cbbSelectPageSize.DataSource = new[] { 10, 50, 100, 200, 500, 1000 };
         }
 
 
+        /// <summary>
+        /// Chuyển dữ liệu từ List thành DataTable
+        /// </summary>
+        /// <typeparam name="T">Generic Type</typeparam>
+        /// <param name="list"></param>
+        /// <returns>a DataTable object</returns>
         private DataTable ConvertListToDataTable<T>(List<T> list)
         {
             DataTable dt = new DataTable();
-            dt.Columns.Add("Index", typeof(Int32));
-            // create Header for dataTable
+            // add index column, thêm vào đầu dataTable
+            dt.Columns.Add(ColumnName.Index, typeof(Int32));
+
+            // fill Header for dataTable
             foreach (PropertyInfo prop in list[0].GetType().GetProperties())
             {
                 dt.Columns.Add($"{prop.Name}");
@@ -97,7 +125,7 @@ namespace ComponentUserControl.DataGridViews
                 DataRow newRow = dt.NewRow();
                 // add index for first columns
                 int startIndex = (CurrentPage - 1) * PageSize + i + 1;
-                newRow["Index"] = startIndex;
+                newRow[ColumnName.Index] = startIndex;
                 foreach (PropertyInfo prop in list[i].GetType().GetProperties())
                 {
                     newRow[prop.Name] = prop.GetValue(list[i], null);
@@ -105,6 +133,88 @@ namespace ComponentUserControl.DataGridViews
                 dt.Rows.Add(newRow);
             }
             return dt;
+        }
+
+
+        public DataGridViewRow GetCurrentRow()
+        {
+            DataGridViewRow currentRow = dgv.CurrentRow;
+            return currentRow;
+        }
+
+        /// <summary>
+        /// Hàm xử lý việc hiển thị lại dữ liệu trên dataGridView, 
+        /// </summary>
+        private void RenderDataGridView()
+        {
+            if (dgv.Rows.Count > 0)
+            {
+                // Rename header column name via 
+                for (int i = 0; i < headerTexts.Length; i++)
+                {
+                    dgv.Columns[i].HeaderText = headerTexts[i];
+                    dgv.Columns[i].DataPropertyName = propertyNames[i];
+                    dgv.Columns[i].Frozen = false;
+                }
+
+                //// Add more button Delete here
+                //if (dgv.Columns[ColumnName.Delete] == null)
+                //{
+                //    var colDelete = new DataGridViewButtonColumn
+                //    {
+                //        Text = "Xoá",
+                //        UseColumnTextForButtonValue = true,
+                //        Name = ColumnName.Delete,
+                //        HeaderText = "Delete",
+                //    };
+                //    colDelete.FlatStyle = FlatStyle.Flat;
+                //    colDelete.DefaultCellStyle.BackColor = Color.Red;
+                //    dgv.Columns.Add(colDelete);
+                //    colDelete.Frozen = false;
+                //}
+
+                //  Case 1: Value is Boolean
+                //  loop qua mảng danh sách properties name mà có giá trị bool cho trước
+                for (int i = 0; i < booleanPropertyNames.Length; i++)
+                {
+                    // loop qua số lượng item hiển thị hiện tại trên dgv
+                    foreach (DataGridViewRow row in dgv.Rows)
+                    {
+                        DataGridViewCheckBoxCell checkbox = new DataGridViewCheckBoxCell();
+                        checkbox.FlatStyle = FlatStyle.Standard;
+                        checkbox.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                        // Tìm index của tên thuộc tính trong mảng PropertyNames 
+                        // để đảm bảo thuộc tính này có tồn tại
+                        int booleanPropertyIndex = Array.IndexOf(propertyNames, booleanPropertyNames[i]);
+                        if (booleanPropertyIndex != -1)
+                        {
+                            try
+                            {
+                                // Check value is boolean ?
+                                bool parsionResult;
+                                if (Boolean.TryParse(row.Cells[booleanPropertyIndex].Value.ToString(), out parsionResult))
+                                {
+                                    // Parsing success=> value kiểu boolean
+                                    string a = row.Cells[booleanPropertyIndex].Value.ToString();
+                                    int indexCurrent = row.Index;
+                                    Console.Write(a);
+                                    checkbox.Value = parsionResult;
+                                    row.Cells[booleanPropertyIndex] = checkbox;
+                                }
+                                else
+                                {
+                                    // Nếu kết quả parsing fail => value ko hợp lệ => không làm gì.
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("Có lỗi xảy ra ở" + ex.Message.ToString());
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
 
@@ -122,14 +232,7 @@ namespace ComponentUserControl.DataGridViews
             //dtAll.Merge(ConvertListToDataTable(list));
             storage.Add(CurrentPage, ConvertListToDataTable(list));
             LoadDataOnCurrentPage();
-            // rename header column name
-            for (int i = 0; i < headerTexts.Length; i++)
-            {
-                dgv.Columns[i].HeaderText = headerTexts[i];
-                dgv.Columns[i].DataPropertyName = propertyNames[i];
-            }
 
-            // re-render pagination zone when fetch more data
         }
 
         private void ShowCurrentAndTotalPage()
@@ -150,7 +253,7 @@ namespace ComponentUserControl.DataGridViews
         }
 
         /// <summary>
-        /// Gán tham chiếu hàm xử lý cập nhật dataSource
+        /// Hàm xử lý nhận tham chiếu hàm xử lý fetch dữ liệu
         /// </summary>
         /// <param name="delegateDataSource">Hàm tham chiếu</param>
         public void SetDelegateUpdateFilter(DelegateDataSource dlgDataSource)
@@ -164,60 +267,36 @@ namespace ComponentUserControl.DataGridViews
         /// <summary>
         /// Hàm sinh các button thể hiện số trang hiện có
         /// </summary>
-        //private void GenerateButtonsPage()
-        //{
-        //    int totalPage = GetTotalPage(TotalItem, PageSize);
-        //    // max range có thể hiển thị là 3
-        //    int rangePage = Math.Min(3, totalPage / 2);
-        //    flowLayoutPagination.Controls.Clear();
-        //    if (totalPage > 0)
-        //    {
-        //        int index = CurrentPage - rangePage;
-        //        if (CurrentPage + rangePage >= totalPage)
-        //        {
-        //            index -= (CurrentPage + rangePage) - totalPage;
-        //        }
 
-        //        while (index <= CurrentPage + rangePage)
-        //        {
-        //            if (index > totalPage)
-        //            {
-        //                return;
-        //            }
+        #region Event Handler Exposing
+        public event DataGridViewCellEventHandler DGVCellContentClick
+        {
+            add
+            {
+                dgv.CellContentClick += value;
+            }
+            remove { dgv.CellContentClick -= value; }
+        }
 
-        //            if (index >= 1)
-        //            {
-        //                Button btn = new Button();
-        //                Cursor = Cursors.Hand;
-        //                btn.Text = index.ToString();
-        //                btn.BackColor = Color.White;
-        //                btn.ForeColor = Color.Black;
-        //                btn.FlatAppearance.BorderSize = 0;
-        //                btn.FlatStyle = FlatStyle.Flat;
-        //                btn.Anchor = AnchorStyles.Top;
-        //                btn.Padding = new Padding(0);
-        //                btn.Width = 40;
-        //                btn.Left = 40 * index + btn.Margin.Horizontal;
-        //                btn.Height = flowLayoutPagination.Height;
-        //                btn.Click += Btn_Click;
-        //                //btn.FlatAppearance.MouseOverBackColor = ColorTranslator.FromHtml(UIKit.PrimaryColor_90);
-        //                if (index == CurrentPage)
-        //                {
-        //                    btn.ForeColor = Color.WhiteSmoke;
-        //                    btn.BackColor = ColorTranslator.FromHtml(UIKit.PrimaryColor);
-        //                    btn.FlatAppearance.BorderColor = ColorTranslator.FromHtml(UIKit.PrimaryColor);
-        //                }
-        //                flowLayoutPagination.Controls.Add(btn);
-        //            }
-        //            else
-        //            {
-        //                rangePage++;
-        //            }
-        //            index++;
-        //        }
-        //    }
-        //}
+        public event EventHandler DGVDoubleClick
+        {
+            add
+            {
+                dgv.DoubleClick += value;
+            }
+            remove { dgv.DoubleClick -= value; }
+        }
 
+        public event EventHandler DGVRightClickDelete
+        {
+            add
+            {
+                xoáToolStripMenuItem.Click += value;
+            }
+            remove { xoáToolStripMenuItem.Click -= value; }
+        }
+
+        #endregion
 
         private void CreateButonWithIndex(int index)
         {
@@ -305,9 +384,6 @@ namespace ComponentUserControl.DataGridViews
 
         }
 
-
-
-
         /// <summary>
         /// Hàm xử lý sự kiện onClick cho các button tự sinh
         /// </summary>
@@ -327,20 +403,22 @@ namespace ComponentUserControl.DataGridViews
         /// </summary>
         private void LoadDataOnCurrentPage()
         {
-            // Nếu chưa tồn tại thì thực hiện fetch thêm data
+
             if (!storage.ContainsKey(CurrentPage))
             {
+                // Nếu chưa tồn tại thì thực hiện fetch thêm data
                 delegateDataSource?.Invoke(PageSize, CurrentPage);
             }
             else
             {
+                // otherwise: hiển thị lại dữ liệu của page đã fetch trước đó
                 dgv.DataSource = storage[CurrentPage];
                 ToggleBackAndNextButtons();
                 ShowCurrentAndTotalPage();
                 GenerateButtonsPage();
             }
+            RenderDataGridView();
         }
-
 
         private void ToggleBackAndNextButtons()
         {
@@ -396,5 +474,24 @@ namespace ComponentUserControl.DataGridViews
                 LoadDataOnCurrentPage();
             }
         }
+
+        /// <summary>
+        /// Hàm xử lý sự kiện khi người dùng click chuột phải vào dgv
+        /// => mở menu action cho row đó, cần implement sự kiện click on Menu action item
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgv_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                DataGridView dgvInside = (DataGridView)sender;
+                int currentMouseOverRow = dgv.HitTest(e.X, e.Y).RowIndex;
+                dgv.Rows[currentMouseOverRow].Selected = true;
+                contextMenuStrip.Show(dgv, new Point(e.X, e.Y));
+            }
+        }
+
+
     }
 }
