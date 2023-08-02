@@ -74,6 +74,14 @@ namespace ComponentUserControl.DataGridViews
                 dgv.ColumnCount = propertyNames.Length;
             }
         }
+
+        public DataGridViewAutoSizeColumnsMode AutoSizeColumnMode
+        {
+            set
+            {
+                dgv.AutoSizeColumnsMode = value;
+            }
+        }
         /// <summary>
         /// Tổng sô item trong 1 trang
         /// </summary>
@@ -83,6 +91,12 @@ namespace ComponentUserControl.DataGridViews
         /// </summary>
         public int CurrentPage { get; set; } = 1;
         public int TotalItem { get; set; } = 0;
+
+        /// <summary>
+        /// số button bên trái và
+        /// </summary>
+        public int rangePage { get; set; } = 2;
+
 
 
         #endregion
@@ -96,7 +110,6 @@ namespace ComponentUserControl.DataGridViews
             InitializeComponent();
             dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgv.MultiSelect = false;
-            dgv.RowHeadersVisible = false;
             cbbSelectPageSize.DataSource = new[] { 10, 50, 100, 200, 500, 1000 };
         }
 
@@ -111,26 +124,28 @@ namespace ComponentUserControl.DataGridViews
         {
             DataTable dt = new DataTable();
             // add index column, thêm vào đầu dataTable
-            dt.Columns.Add(ColumnName.Index, typeof(Int32));
+            //dt.Columns.Add(ColumnName.Index, typeof(Int32));
 
-            // fill Header for dataTable
-            foreach (PropertyInfo prop in list[0].GetType().GetProperties())
+            if (list != null && list.Count > 0)
             {
-                dt.Columns.Add($"{prop.Name}");
-            }
-
-            // fill data
-            for (int i = 0; i < list.Count; i++)
-            {
-                DataRow newRow = dt.NewRow();
-                // add index for first columns
-                int startIndex = (CurrentPage - 1) * PageSize + i + 1;
-                newRow[ColumnName.Index] = startIndex;
-                foreach (PropertyInfo prop in list[i].GetType().GetProperties())
+                // fill Header for dataTable
+                foreach (PropertyInfo prop in list[0].GetType().GetProperties())
                 {
-                    newRow[prop.Name] = prop.GetValue(list[i], null);
+                    dt.Columns.Add($"{prop.Name}");
                 }
-                dt.Rows.Add(newRow);
+                // fill data
+                for (int i = 0; i < list.Count; i++)
+                {
+                    DataRow newRow = dt.NewRow();
+                    // add index for first columns
+                    //int startIndex = (CurrentPage - 1) * PageSize + i + 1;
+                    //newRow[ColumnName.Index] = startIndex;
+                    foreach (PropertyInfo prop in list[i].GetType().GetProperties())
+                    {
+                        newRow[prop.Name] = prop.GetValue(list[i], null);
+                    }
+                    dt.Rows.Add(newRow);
+                }
             }
             return dt;
         }
@@ -156,6 +171,9 @@ namespace ComponentUserControl.DataGridViews
                     dgv.Columns[i].DataPropertyName = propertyNames[i];
                     dgv.Columns[i].Frozen = false;
                 }
+                foreach (DataGridViewRow row in dgv.Rows)
+                    row.HeaderCell.Value = (row.Index + 1).ToString();
+
 
                 //// Add more button Delete here
                 //if (dgv.Columns[ColumnName.Delete] == null)
@@ -197,7 +215,6 @@ namespace ComponentUserControl.DataGridViews
                                     // Parsing success=> value kiểu boolean
                                     string a = row.Cells[booleanPropertyIndex].Value.ToString();
                                     int indexCurrent = row.Index;
-                                    Console.Write(a);
                                     checkbox.Value = parsionResult;
                                     row.Cells[booleanPropertyIndex] = checkbox;
                                 }
@@ -229,10 +246,28 @@ namespace ComponentUserControl.DataGridViews
             ToggleBackAndNextButtons();
             GenerateButtonsPage();
             dgv.AutoGenerateColumns = false;
-            //dtAll.Merge(ConvertListToDataTable(list));
-            storage.Add(CurrentPage, ConvertListToDataTable(list));
+            // Current chưa được fetch data
+            if (!storage.ContainsKey(CurrentPage))
+            {
+                storage.Add(CurrentPage, ConvertListToDataTable(list));
+            }
+
             LoadDataOnCurrentPage();
 
+        }
+
+        /// <summary>
+        /// Làm mới dữ liệu tại trang chỉ định
+        /// </summary>
+        /// <param name="currentPage">Trang hiện tại</param>
+        public void RefreshDataSource<T>(List<T> newList, int currentPage)
+        {
+            // update data
+            if (storage.ContainsKey(currentPage))
+            {
+                storage[CurrentPage] = ConvertListToDataTable(newList);
+            }
+            // do nothing
         }
 
         private void ShowCurrentAndTotalPage()
@@ -269,13 +304,13 @@ namespace ComponentUserControl.DataGridViews
         /// </summary>
 
         #region Event Handler Exposing
-        public event DataGridViewCellEventHandler DGVCellContentClick
+        public event DataGridViewCellEventHandler DGVCellClick
         {
             add
             {
-                dgv.CellContentClick += value;
+                dgv.CellClick += value;
             }
-            remove { dgv.CellContentClick -= value; }
+            remove { dgv.CellClick -= value; }
         }
 
         public event EventHandler DGVDoubleClick
@@ -328,7 +363,6 @@ namespace ComponentUserControl.DataGridViews
         {
             int totalPage = GetTotalPage(TotalItem, PageSize);
             // max range có thể hiển thị là 3
-            int rangePage = 3;
             int maxRangePage = (rangePage * 2) + 1;
             flowLayoutPagination.Controls.Clear();
             // Case A: TotalPage nhỏ hơn max range page

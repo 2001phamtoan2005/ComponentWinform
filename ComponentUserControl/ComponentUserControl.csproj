@@ -143,12 +143,13 @@
     <Compile Include="TabUI.Designer.cs">
       <DependentUpon>TabUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="TextBoxs\TextBoxCustom.cs">
+    <Compile Include="TextBoxs\InputCustom.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TextBoxs\TextBoxCustom.Designer.cs">
-      <DependentUpon>TextBoxCustom.cs</DependentUpon>
+    <Compile Include="TextBoxs\InputCustom.Designer.cs">
+      <DependentUpon>InputCustom.cs</DependentUpon>
     </Compile>
+    <Compile Include="TextBoxs\TestBoxCustom.cs" />
     <EmbeddedResource Include="ButtonDesignForm.resx">
       <DependentUpon>ButtonDesignForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -169,8 +170,8 @@
     <EmbeddedResource Include="TabUI.resx">
       <DependentUpon>TabUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TextBoxs\TextBoxCustom.resx">
-      <DependentUpon>TextBoxCustom.cs</DependentUpon>
+    <EmbeddedResource Include="TextBoxs\InputCustom.resx">
+      <DependentUpon>InputCustom.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

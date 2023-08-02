@@ -60,19 +60,19 @@
             this.tblLayoutMain.Name = "tblLayoutMain";
             this.tblLayoutMain.RowCount = 2;
             this.tblLayoutMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLayoutMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 69F));
-            this.tblLayoutMain.Size = new System.Drawing.Size(1272, 609);
+            this.tblLayoutMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.tblLayoutMain.Size = new System.Drawing.Size(636, 317);
             this.tblLayoutMain.TabIndex = 0;
             // 
             // tblLayoutControls
             // 
             this.tblLayoutControls.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.tblLayoutControls.ColumnCount = 5;
-            this.tblLayoutControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
+            this.tblLayoutControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
             this.tblLayoutControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
             this.tblLayoutControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 71.42857F));
             this.tblLayoutControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
-            this.tblLayoutControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 203F));
+            this.tblLayoutControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 105F));
             this.tblLayoutControls.Controls.Add(this.tblLayoutPagination, 2, 0);
             this.tblLayoutControls.Controls.Add(this.lblTrangHienTai, 0, 0);
             this.tblLayoutControls.Controls.Add(this.cbbSelectPageSize, 4, 0);
@@ -81,12 +81,12 @@
             this.tblLayoutControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tblLayoutControls.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tblLayoutControls.ForeColor = System.Drawing.Color.White;
-            this.tblLayoutControls.Location = new System.Drawing.Point(0, 540);
+            this.tblLayoutControls.Location = new System.Drawing.Point(0, 281);
             this.tblLayoutControls.Margin = new System.Windows.Forms.Padding(0);
             this.tblLayoutControls.Name = "tblLayoutControls";
             this.tblLayoutControls.RowCount = 1;
             this.tblLayoutControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLayoutControls.Size = new System.Drawing.Size(1272, 69);
+            this.tblLayoutControls.Size = new System.Drawing.Size(636, 36);
             this.tblLayoutControls.TabIndex = 1;
             // 
             // tblLayoutPagination
@@ -94,26 +94,26 @@
             this.tblLayoutPagination.AutoScroll = true;
             this.tblLayoutPagination.BackColor = System.Drawing.Color.Transparent;
             this.tblLayoutPagination.ColumnCount = 3;
-            this.tblLayoutPagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tblLayoutPagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
             this.tblLayoutPagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLayoutPagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tblLayoutPagination.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
             this.tblLayoutPagination.Controls.Add(this.flowLayoutPagination, 1, 0);
             this.tblLayoutPagination.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tblLayoutPagination.Location = new System.Drawing.Point(306, 0);
+            this.tblLayoutPagination.Location = new System.Drawing.Point(152, 0);
             this.tblLayoutPagination.Margin = new System.Windows.Forms.Padding(0);
             this.tblLayoutPagination.Name = "tblLayoutPagination";
             this.tblLayoutPagination.RowCount = 1;
             this.tblLayoutPagination.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblLayoutPagination.Size = new System.Drawing.Size(635, 69);
+            this.tblLayoutPagination.Size = new System.Drawing.Size(315, 36);
             this.tblLayoutPagination.TabIndex = 2;
             // 
             // flowLayoutPagination
             // 
             this.flowLayoutPagination.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPagination.Location = new System.Drawing.Point(24, 5);
-            this.flowLayoutPagination.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.flowLayoutPagination.Location = new System.Drawing.Point(12, 2);
+            this.flowLayoutPagination.Margin = new System.Windows.Forms.Padding(2);
             this.flowLayoutPagination.Name = "flowLayoutPagination";
-            this.flowLayoutPagination.Size = new System.Drawing.Size(587, 59);
+            this.flowLayoutPagination.Size = new System.Drawing.Size(291, 32);
             this.flowLayoutPagination.TabIndex = 0;
             // 
             // lblTrangHienTai
@@ -122,10 +122,10 @@
             this.lblTrangHienTai.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblTrangHienTai.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTrangHienTai.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblTrangHienTai.Location = new System.Drawing.Point(4, 0);
-            this.lblTrangHienTai.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblTrangHienTai.Location = new System.Drawing.Point(2, 0);
+            this.lblTrangHienTai.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblTrangHienTai.Name = "lblTrangHienTai";
-            this.lblTrangHienTai.Size = new System.Drawing.Size(172, 69);
+            this.lblTrangHienTai.Size = new System.Drawing.Size(86, 36);
             this.lblTrangHienTai.TabIndex = 0;
             this.lblTrangHienTai.Text = "Trang";
             this.lblTrangHienTai.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -136,10 +136,10 @@
             this.cbbSelectPageSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbbSelectPageSize.FormattingEnabled = true;
             this.cbbSelectPageSize.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.cbbSelectPageSize.Location = new System.Drawing.Point(1083, 12);
-            this.cbbSelectPageSize.Margin = new System.Windows.Forms.Padding(4, 12, 4, 12);
+            this.cbbSelectPageSize.Location = new System.Drawing.Point(538, 6);
+            this.cbbSelectPageSize.Margin = new System.Windows.Forms.Padding(2, 6, 2, 6);
             this.cbbSelectPageSize.Name = "cbbSelectPageSize";
-            this.cbbSelectPageSize.Size = new System.Drawing.Size(172, 37);
+            this.cbbSelectPageSize.Size = new System.Drawing.Size(88, 23);
             this.cbbSelectPageSize.TabIndex = 5;
             this.cbbSelectPageSize.SelectedValueChanged += new System.EventHandler(this.cbbSelectPageSize_SelectedValueChanged);
             // 
@@ -150,9 +150,10 @@
             this.btnBack.FlatAppearance.BorderSize = 0;
             this.btnBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBack.Image = ((System.Drawing.Image)(resources.GetObject("btnBack.Image")));
-            this.btnBack.Location = new System.Drawing.Point(228, 3);
+            this.btnBack.Location = new System.Drawing.Point(112, 2);
+            this.btnBack.Margin = new System.Windows.Forms.Padding(2);
             this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(75, 63);
+            this.btnBack.Size = new System.Drawing.Size(38, 32);
             this.btnBack.TabIndex = 6;
             this.btnBack.UseVisualStyleBackColor = false;
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
@@ -164,9 +165,10 @@
             this.btnNext.FlatAppearance.BorderSize = 0;
             this.btnNext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnNext.Image = ((System.Drawing.Image)(resources.GetObject("btnNext.Image")));
-            this.btnNext.Location = new System.Drawing.Point(944, 3);
+            this.btnNext.Location = new System.Drawing.Point(469, 2);
+            this.btnNext.Margin = new System.Windows.Forms.Padding(2);
             this.btnNext.Name = "btnNext";
-            this.btnNext.Size = new System.Drawing.Size(75, 63);
+            this.btnNext.Size = new System.Drawing.Size(38, 32);
             this.btnNext.TabIndex = 7;
             this.btnNext.UseVisualStyleBackColor = false;
             this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
@@ -178,13 +180,13 @@
             this.dgv.BackgroundColor = System.Drawing.SystemColors.ControlLight;
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv.Location = new System.Drawing.Point(4, 5);
-            this.dgv.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dgv.Location = new System.Drawing.Point(2, 2);
+            this.dgv.Margin = new System.Windows.Forms.Padding(2);
             this.dgv.Name = "dgv";
             this.dgv.ReadOnly = true;
             this.dgv.RowHeadersWidth = 51;
             this.dgv.RowTemplate.Height = 24;
-            this.dgv.Size = new System.Drawing.Size(1264, 530);
+            this.dgv.Size = new System.Drawing.Size(632, 277);
             this.dgv.TabIndex = 2;
             this.dgv.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dgv_MouseClick);
             // 
@@ -194,22 +196,22 @@
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.xoáToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(129, 42);
+            this.contextMenuStrip.Size = new System.Drawing.Size(95, 26);
             // 
             // xoáToolStripMenuItem
             // 
             this.xoáToolStripMenuItem.Name = "xoáToolStripMenuItem";
-            this.xoáToolStripMenuItem.Size = new System.Drawing.Size(128, 38);
+            this.xoáToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
             this.xoáToolStripMenuItem.Text = "Xoá";
             // 
             // DataGridViewCustom
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tblLayoutMain);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "DataGridViewCustom";
-            this.Size = new System.Drawing.Size(1272, 609);
+            this.Size = new System.Drawing.Size(636, 317);
             this.tblLayoutMain.ResumeLayout(false);
             this.tblLayoutControls.ResumeLayout(false);
             this.tblLayoutControls.PerformLayout();
