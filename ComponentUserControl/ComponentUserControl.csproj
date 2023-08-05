@@ -3,6 +3,21 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
     <!--<LangVersion>preview</LangVersion>-->
     <!--<LangVersion>8.0</LangVersion>-->
   </PropertyGroup>
@@ -37,6 +52,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -52,6 +71,7 @@
       <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
     </Reference>
@@ -86,13 +106,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ButtonDesignForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include=".Designer.cs">
-      <DependentUpon>ButtonDesignForm.cs</DependentUpon>
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Buttons\ButtonCustom.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -121,11 +134,17 @@
     <Compile Include="Loading\Loading.Designer.cs">
       <DependentUpon>Loading.cs</DependentUpon>
     </Compile>
-    <Compile Include="main.cs">
+    <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="main.Designer.cs">
-      <DependentUpon>main.cs</DependentUpon>
+    <Compile Include="Main.Designer.cs">
+      <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NumberBox\NumberBoxCustom.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NumberBox\NumberBoxCustom.Designer.cs">
+      <DependentUpon>NumberBoxCustom.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -137,38 +156,31 @@
     <Compile Include="Services\BackEnd.cs" />
     <Compile Include="Services\ChiTietDonHangDTO.cs" />
     <Compile Include="Services\KhachHangDTO.cs" />
-    <Compile Include="TabUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TabUI.Designer.cs">
-      <DependentUpon>TabUI.cs</DependentUpon>
-    </Compile>
     <Compile Include="TextBoxs\InputCustom.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="TextBoxs\InputCustom.Designer.cs">
       <DependentUpon>InputCustom.cs</DependentUpon>
     </Compile>
-    <Compile Include="TextBoxs\TestBoxCustom.cs" />
-    <EmbeddedResource Include="ButtonDesignForm.resx">
-      <DependentUpon>ButtonDesignForm.cs</DependentUpon>
-    </EmbeddedResource>
+    <Compile Include="TextBoxs\InputCustom.Definitions.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <EmbeddedResource Include="DataGridViews\DataGridViewCustom.resx">
       <DependentUpon>DataGridViewCustom.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Loading\Loading.resx">
       <DependentUpon>Loading.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="main.resx">
-      <DependentUpon>main.cs</DependentUpon>
+    <EmbeddedResource Include="Main.resx">
+      <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NumberBox\NumberBoxCustom.resx">
+      <DependentUpon>NumberBoxCustom.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TabUI.resx">
-      <DependentUpon>TabUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TextBoxs\InputCustom.resx">
       <DependentUpon>InputCustom.cs</DependentUpon>
@@ -198,6 +210,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icons8-spinner1.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

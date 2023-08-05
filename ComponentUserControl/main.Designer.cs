@@ -1,6 +1,6 @@
 ﻿namespace ComponentUserControl
 {
-    partial class main
+    partial class Main
     {
         /// <summary>
         /// Required designer variable.
@@ -28,100 +28,121 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnButtons = new System.Windows.Forms.Button();
-            this.btnTabs = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.inputCustom1 = new ComponentUserControl.TextBoxs.InputCustom();
+            this.button1 = new System.Windows.Forms.Button();
+            this.buttonPrimary1 = new Components.Buttons.ButtonPrimary();
+            this.numberBoxCustom1 = new ComponentUserControl.NumberBox.NumberBoxCustom();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // btnButtons
+            // tableLayoutPanel1
             // 
-            this.btnButtons.FlatAppearance.BorderSize = 0;
-            this.btnButtons.Location = new System.Drawing.Point(481, 82);
-            this.btnButtons.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.btnButtons.Name = "btnButtons";
-            this.btnButtons.Size = new System.Drawing.Size(56, 19);
-            this.btnButtons.TabIndex = 1;
-            this.btnButtons.Text = "Buttons";
-            this.btnButtons.UseVisualStyleBackColor = true;
-            this.btnButtons.Click += new System.EventHandler(this.btnButtons_Click);
-            // 
-            // btnTabs
-            // 
-            this.btnTabs.Location = new System.Drawing.Point(18, 43);
-            this.btnTabs.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.btnTabs.Name = "btnTabs";
-            this.btnTabs.Size = new System.Drawing.Size(56, 19);
-            this.btnTabs.TabIndex = 2;
-            this.btnTabs.Text = "Tabs";
-            this.btnTabs.UseVisualStyleBackColor = true;
-            this.btnTabs.Click += new System.EventHandler(this.btnTabs_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(18, 74);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(118, 34);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "DateTimePicker";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(204, 41);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 7;
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.inputCustom1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.numberBoxCustom1, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 92F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(200, 234);
+            this.tableLayoutPanel1.TabIndex = 1;
             // 
             // inputCustom1
             // 
+            this.inputCustom1.AllowWhiteSpace = true;
             this.inputCustom1.BackColor = System.Drawing.Color.White;
-            this.inputCustom1.BorderColor = System.Drawing.Color.Empty;
-            this.inputCustom1.BorderFocusColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(107)))), ((int)(((byte)(0)))));
-            this.inputCustom1.BorderSize = 2;
+            this.inputCustom1.Error = "";
             this.inputCustom1.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.inputCustom1.Location = new System.Drawing.Point(113, 184);
+            this.inputCustom1.Label = "Title";
+            this.inputCustom1.Location = new System.Drawing.Point(2, 73);
             this.inputCustom1.Margin = new System.Windows.Forms.Padding(2);
-            this.inputCustom1.MaximumSize = new System.Drawing.Size(250, 78);
+            this.inputCustom1.MaximumSize = new System.Drawing.Size(250, 70);
             this.inputCustom1.Multiline = false;
             this.inputCustom1.Name = "inputCustom1";
-            this.inputCustom1.SetErrorText = "";
-            this.inputCustom1.SetImageForLabel = null;
-            this.inputCustom1.SetLabel = "Title";
-            this.inputCustom1.SetText = "";
-            this.inputCustom1.Size = new System.Drawing.Size(250, 70);
-            this.inputCustom1.TabIndex = 8;
-            this.inputCustom1.UnderlinedStyle = false;
-            this.inputCustom1.UCKeyPress += new System.Windows.Forms.KeyPressEventHandler(this.inputCustom1_UCKeyPress);
+            this.inputCustom1.NotNull = true;
+            this.inputCustom1.Size = new System.Drawing.Size(196, 67);
+            this.inputCustom1.TabIndex = 1;
+            this.inputCustom1.ValidationType = ComponentUserControl.TextBoxs.InputCustom.eValidationType.NumberAndLetter;
             // 
-            // main
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(296, 45);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // buttonPrimary1
+            // 
+            this.buttonPrimary1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(107)))), ((int)(((byte)(0)))));
+            this.buttonPrimary1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(107)))), ((int)(((byte)(0)))));
+            this.buttonPrimary1.BorderRadius = 8;
+            this.buttonPrimary1.BorderSize = 0;
+            this.buttonPrimary1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonPrimary1.FlatAppearance.BorderSize = 0;
+            this.buttonPrimary1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonPrimary1.ForeColor = System.Drawing.Color.White;
+            this.buttonPrimary1.Location = new System.Drawing.Point(263, 178);
+            this.buttonPrimary1.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonPrimary1.Name = "buttonPrimary1";
+            this.buttonPrimary1.Padding = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.buttonPrimary1.Size = new System.Drawing.Size(110, 30);
+            this.buttonPrimary1.TabIndex = 0;
+            this.buttonPrimary1.Text = "buttonPrimary1";
+            this.buttonPrimary1.UseVisualStyleBackColor = false;
+            this.buttonPrimary1.Click += new System.EventHandler(this.buttonPrimary1_Click);
+            // 
+            // numberBoxCustom1
+            // 
+            this.numberBoxCustom1.Label = "Title";
+            this.numberBoxCustom1.Location = new System.Drawing.Point(3, 3);
+            this.numberBoxCustom1.MaxValue = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.numberBoxCustom1.MinValue = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.numberBoxCustom1.Name = "numberBoxCustom1";
+            this.numberBoxCustom1.Size = new System.Drawing.Size(194, 65);
+            this.numberBoxCustom1.TabIndex = 2;
+            this.numberBoxCustom1.Value = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            // 
+            // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(792, 505);
-            this.Controls.Add(this.inputCustom1);
-            this.Controls.Add(this.textBox1);
+            this.ClientSize = new System.Drawing.Size(400, 234);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.btnTabs);
-            this.Controls.Add(this.btnButtons);
-            this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.Name = "main";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "main";
-            this.Load += new System.EventHandler(this.main_Load);
+            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.buttonPrimary1);
+            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Name = "Main";
+            this.Text = "Main";
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Button btnButtons;
-        private System.Windows.Forms.Button btnTabs;
+
+        private Components.Buttons.ButtonPrimary buttonPrimary1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button button1;
-        private Components.Buttons.ButtonPrimary btnThem;
-        private System.Windows.Forms.TextBox textBox1;
         private TextBoxs.InputCustom inputCustom1;
+        private NumberBox.NumberBoxCustom numberBoxCustom1;
     }
 }

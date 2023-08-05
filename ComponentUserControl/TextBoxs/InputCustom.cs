@@ -1,4 +1,5 @@
 ﻿using ComponentUserControl.Config;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,151 +14,29 @@ namespace ComponentUserControl.TextBoxs
 {
     public partial class InputCustom : UserControl
     {
+        // Message Error
+        const string NOT_NULL = "Trường này là bắt buộc!";
+        const string SPECIAL_CHARACTER = "Kí tự vừa nhập không hợp lệ";
+        const string ONLY_LETTER_AND_DIGIT = "Phải là ký tự và số";
+        const string ONLY_DIGIT = "Phải là ký tự!";
+        const string NO_WHITE_SPACE = "Phải không khoảng trắng!";
         // Category
-        const string CategorySetValue = "Custom:Set value";
-        //Fields
-        private Color borderColor;
-        private int borderSize = 2;
-        private bool underlinedStyle = false;
-        private Color borderFocusColor;
-        private bool isFocused = false;
+        const string CategoryDisplay = "Custom: WrittenByToan";
+
 
         //Constructor
         public InputCustom()
         {
             InitializeComponent();
-            borderFocusColor = ColorTranslator.FromHtml(UIKit.PrimaryColor);
             // Init controls
             lblError.Text = string.Empty;
+            errorProvider.SetIconPadding(txt, -20);
         }
 
-
-        [Category(CategorySetValue)]
-        public string SetLabel
-        {
-            get { return label.Text; }
-            set
-            {
-                label.Text = value;
-                this.Invalidate();
-            }
-        }
-
-
-        [Category(CategorySetValue)]
-        public string SetText
-        {
-            get { return txt.Text; }
-            set { txt.Text = value; }
-        }
-
-        /// <summary>
-        /// Handle Validation : Error
-        /// </summary>
-        [Category(CategorySetValue)]
-        public string SetErrorText
-        {
-            get { return lblError.Text; }
-            set
-            {
-                lblError.Text = value;
-                // Error
-                if (isFocused && value != null && value != string.Empty)
-                {
-                    label.ForeColor = Color.Firebrick;
-                }
-                // Pass
-                else
-                {
-                    label.ForeColor = ColorTranslator.FromHtml(UIKit.SecondaryColor);
-                }
-                this.Invalidate();
-            }
-        }
-
-        [Category(CategorySetValue)]
-        public Image SetImageForLabel
-        {
-            get { return label.Image; }
-            set { label.Image = value; }
-        }
-
-
-
-
-        //Properties
-        [Category("RJ Code Advance")]
-        public Color BorderColor
-        {
-            get { return borderColor; }
-            set
-            {
-                borderColor = value;
-                this.Invalidate();
-            }
-        }
-        [Category("RJ Code Advance")]
-        public int BorderSize
-        {
-            get { return borderSize; }
-            set
-            {
-                borderSize = value;
-                this.Invalidate();
-            }
-        }
-
-        [Category("RJ Code Advance")]
-        public bool UnderlinedStyle
-        {
-            get { return underlinedStyle; }
-            set
-            {
-                underlinedStyle = value;
-            }
-        }
-
-
-        [Category("RJ Code Advance")]
-        public bool Multiline
-        {
-            get { return txt.Multiline; }
-            set { txt.Multiline = value; }
-        }
-
-        [Category("RJ Code Advance")]
-        public override Color BackColor
-        {
-            get { return base.BackColor; }
-            set
-            {
-                base.BackColor = value;
-                txt.BackColor = value;
-            }
-        }
-
-        [Category("RJ Code Advance")]
-        public override Color ForeColor
-        {
-            get { return base.ForeColor; }
-            set
-            {
-                base.ForeColor = value;
-                txt.ForeColor = value;
-            }
-        }
-
-
-        [Category("RJ Code Advance")]
-        public Color BorderFocusColor
-        {
-            get { return borderFocusColor; }
-            set { borderFocusColor = value; }
-        }
 
         //Overridden methods
         //Events
-
+        #region Event Exposing
         public event EventHandler UCTextChanged
         {
             add
@@ -175,5 +54,90 @@ namespace ComponentUserControl.TextBoxs
             }
             remove { txt.KeyPress -= value; }
         }
+        #endregion
+
+        #region Pre-Validation Input
+        private bool isEnableTextChanged = true;
+        /// <summary>
+        /// Sự kiện này sẽ được thực thi đầu tiên => validate cơ bản cho input
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Txt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Only allow backspace control (Esc, Enter,...)
+            if (Char.IsControl(e.KeyChar) && e.KeyChar != ((char)Keys.Back))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txt_TextChanged(object sender, EventArgs e)
+        {
+            if (!isEnableTextChanged)
+            {
+                return;
+            }
+
+            Error = string.Empty;
+            TextBox textbox = (TextBox)sender;
+            // Case 1: Not null when focused
+            if(NotNull && textbox.Text== string.Empty)
+            {
+                Error = NOT_NULL;
+                return;
+            }
+
+            // case 2: Allow white space 
+            if (!AllowWhiteSpace && textbox.Text.Any(s => Char.IsWhiteSpace(s)))
+            {
+                Error = NO_WHITE_SPACE;
+                return;
+            }
+            // case 3: Not special character 
+            if(textbox.Text.Any(s => Char.IsControl(s)))
+            {
+                Error = SPECIAL_CHARACTER;
+                return;
+            }
+
+            switch (ValidationType)
+            {
+                case eValidationType.OnlyLetter:
+                    {
+                        OnlyLetterHandler(textbox.Text);
+                    }; break;
+                case eValidationType.NumberAndLetter:
+                    {
+                        NumberAndLetterHandler(textbox.Text);
+                    }; break;
+                default:
+                    {
+
+                    }; break;
+            }
+        }
+
+
+        private void NumberAndLetterHandler(string text)
+        {
+            // Nếu toàn bộ chuỗi là kí tự ,số hoặc khoảng trắng => ok
+            if (!text.All(s => Char.IsLetterOrDigit(s) || Char.IsWhiteSpace(s)))
+            {
+                Error = ONLY_LETTER_AND_DIGIT;
+            }
+        }
+
+        private void OnlyLetterHandler(string text)
+        {
+            // Nếu toàn bộ chuỗi là kí tự hoặc khoảng trắng => ok
+            if (!text.All(s => Char.IsLetter(s) || Char.IsWhiteSpace(s)))
+            {
+                Error = ONLY_DIGIT;
+            }
+
+        }
+        #endregion
+
     }
 }
