@@ -68,7 +68,7 @@
             this.label.Location = new System.Drawing.Point(7, 5);
             this.label.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label.Name = "label";
-            this.label.Size = new System.Drawing.Size(30, 15);
+            this.label.Size = new System.Drawing.Size(38, 20);
             this.label.TabIndex = 0;
             this.label.Text = "Title";
             this.label.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -81,7 +81,7 @@
             this.lblError.Location = new System.Drawing.Point(9, 53);
             this.lblError.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblError.Name = "lblError";
-            this.lblError.Size = new System.Drawing.Size(40, 15);
+            this.lblError.Size = new System.Drawing.Size(51, 20);
             this.lblError.TabIndex = 1;
             this.lblError.Text = "label2";
             // 
@@ -90,7 +90,7 @@
             this.txt.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt.Location = new System.Drawing.Point(8, 28);
             this.txt.Name = "txt";
-            this.txt.Size = new System.Drawing.Size(234, 23);
+            this.txt.Size = new System.Drawing.Size(234, 27);
             this.txt.TabIndex = 2;
             this.txt.TextChanged += new System.EventHandler(this.txt_TextChanged);
             this.txt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Txt_KeyPress);
@@ -103,7 +103,7 @@
             // 
             // InputCustom
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.tableLayoutPanel);

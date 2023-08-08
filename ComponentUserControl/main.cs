@@ -18,16 +18,21 @@ namespace ComponentUserControl
             InitializeComponent();
         }
 
+        private void InputCustom1_UCTextChanged(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         private void buttonPrimary1_Click(object sender, EventArgs e)
         {
             string Errors = string.Empty;
             foreach(Control control in tableLayoutPanel1.Controls)
             {
-                if (control != null && control is InputCustom) {
+                if (control is InputCustom) {
                     InputCustom inputCustom = (InputCustom)control;
                     if (inputCustom.Error != string.Empty)
                     {
-                        Errors += $"Name của input: {inputCustom.Name} = Error: {inputCustom.Error} \n";
+                        Errors += $"Name của input: {inputCustom.Name} = Error: {inputCustom.Text} \n";
                     }
                 }
             }
