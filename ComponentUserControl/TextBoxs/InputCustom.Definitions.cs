@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -67,6 +68,16 @@ namespace ComponentUserControl.TextBoxs
                         return string.Empty;
                     }
 
+                    // Check min lenght
+                    if (lblError.Text == string.Empty)
+                    {
+                        if (MinLenght > 0 && txt.Text.Length < MinLenght)
+                        {
+                            lblError.Text = MIN_LENGHT_ERROR();
+                            return lblError.Text;
+                        }
+                    }
+
                     if (txt.Text == null || txt.Text == string.Empty)
                     {
                         lblError.Text = NOT_NULL;
@@ -91,6 +102,45 @@ namespace ComponentUserControl.TextBoxs
         //    get { return label.Image; }
         //    set { label.Image = value; }
         //}
+
+        const int DefaultMaxLenghtValue = 32767;
+        private int _MaxLenght = DefaultMaxLenghtValue;
+        [Description("Chỉ định số kí tự tối đa được phép nhập"), Category(CategoryDisplay)]
+        public int MaxLenght
+        {
+            get { return _MaxLenght; }
+            set
+            {
+                if (value <= _MinHeight)
+                {
+                    MaxLenght = DefaultMaxLenghtValue;
+                }
+                else
+                {
+                    _MaxLenght = value;
+                }
+            }
+        }
+
+
+        const int DefaultMinLenghtValue = 0;
+        private int _MinHeight = DefaultMinLenghtValue;
+        [Description("Chỉ định số kí tự tối thiểu được phép nhập"), Category(CategoryDisplay)]
+        public int MinLenght
+        {
+            get { return _MinHeight; }
+            set
+            {
+                if (value >= MaxLenght)
+                {
+                    MinLenght = DefaultMinLenghtValue;
+                }
+                else
+                {
+                    _MinHeight = value;
+                }
+            }
+        }
 
         [Category(CategoryDisplay)]
         public bool NotNull { get; set; } = true;

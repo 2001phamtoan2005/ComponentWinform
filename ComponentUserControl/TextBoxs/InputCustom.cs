@@ -20,6 +20,15 @@ namespace ComponentUserControl.TextBoxs
         const string ONLY_LETTER_AND_DIGIT = "Phải là ký tự và số";
         const string ONLY_DIGIT = "Phải là ký tự!";
         const string NO_WHITE_SPACE = "Phải không khoảng trắng!";
+        private string MAX_LENGHT_ERROR()
+        {
+            return $"Tổi đa chỉ dc phép {MaxLenght} kí tự!";
+        }
+
+        private string MIN_LENGHT_ERROR()
+        {
+            return $"Tổi thiểu phải đủ {MinLenght} kí tự!";
+        }
         // Category
         const string CategoryDisplay = "Custom: WrittenByToan";
 
@@ -82,7 +91,7 @@ namespace ComponentUserControl.TextBoxs
             Error = string.Empty;
             TextBox textbox = (TextBox)sender;
             // Case 1: Not null when focused
-            if(NotNull && textbox.Text== string.Empty)
+            if (NotNull && textbox.Text == string.Empty)
             {
                 Error = NOT_NULL;
                 return;
@@ -95,11 +104,19 @@ namespace ComponentUserControl.TextBoxs
                 return;
             }
             // case 3: Not special character 
-            if(textbox.Text.Any(s => Char.IsControl(s)))
+            if (textbox.Text.Any(s => Char.IsControl(s)))
             {
                 Error = SPECIAL_CHARACTER;
                 return;
             }
+            if (textbox.Text != string.Empty && textbox.Text.Length > MaxLenght)
+            {
+                Error = MAX_LENGHT_ERROR();
+                return;
+            }
+
+            // case 4: MaxLenght character
+
 
             switch (ValidationType)
             {

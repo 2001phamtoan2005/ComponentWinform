@@ -32,7 +32,7 @@ namespace ComponentUserControl
                     InputCustom inputCustom = (InputCustom)control;
                     if (inputCustom.Error != string.Empty)
                     {
-                        Errors += $"Name của input: {inputCustom.Name} = Error: {inputCustom.Text} \n";
+                        Errors += $"Name của input: {inputCustom.Name} = Error: {inputCustom.Error} \n";
                     }
                 }
             }
